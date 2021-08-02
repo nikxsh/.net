@@ -1,9 +1,0 @@
-<Project Sdk="Microsoft.NET.Sdk">
-
-  <PropertyGroup>
-    <TargetFramework>netcoreapp3.0</TargetFramework>
-    <AssemblyName>WineryStore.Contracts</AssemblyName>
-    <RootNamespace>WineryStore.Contracts</RootNamespace>
-  </PropertyGroup>
-
-</Project>
