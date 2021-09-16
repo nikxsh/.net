@@ -50,7 +50,7 @@ namespace Analytic
         /// </summary>
         public void StringDecode(string input, string code)
         {
-            if(string.IsNullOrEmpty(input))
+            if (string.IsNullOrEmpty(input))
             {
                 if (!string.IsNullOrEmpty(code) && code.Length > 0)
                     Console.WriteLine(code);
@@ -64,4 +64,5 @@ namespace Analytic
                     StringDecode(input.Substring(2), code + ('a' + number - 1));
             }
         }
+    }
 }

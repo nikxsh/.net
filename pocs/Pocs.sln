@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MongoDb", "MongoDb\MongoDb.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Prometheus", "Prometheus\Prometheus.csproj", "{4130EEF3-984B-4DA4-B4B2-4AE4344A9CEB}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AwsRegionLatencies", "AwsRegionLatencies\AwsRegionLatencies.csproj", "{6668D831-3E65-4B8B-8865-9BF8A5248D2A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{4130EEF3-984B-4DA4-B4B2-4AE4344A9CEB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4130EEF3-984B-4DA4-B4B2-4AE4344A9CEB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4130EEF3-984B-4DA4-B4B2-4AE4344A9CEB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6668D831-3E65-4B8B-8865-9BF8A5248D2A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6668D831-3E65-4B8B-8865-9BF8A5248D2A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6668D831-3E65-4B8B-8865-9BF8A5248D2A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6668D831-3E65-4B8B-8865-9BF8A5248D2A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

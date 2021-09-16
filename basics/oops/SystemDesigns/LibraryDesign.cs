@@ -25,13 +25,13 @@ namespace ObjectOriented.SystemDesigns
         bool CheckOut();
     }
 
-    interface IAccount
+    interface ILibraryAccount
     {
         void CreateProfile(string Name, string Password, string email);
         bool ResetPassword(string password);
     }
 
-    interface ILibrarian : IAccount
+    interface ILibrarian : ILibraryAccount
     {
         bool AddBook(string Name);
         bool BlockMemeber(string id);

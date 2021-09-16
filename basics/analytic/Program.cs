@@ -6,9 +6,11 @@ namespace Analytic
 	{
 		static void Main(string[] args)
 		{
+			new Recursive.Fibonacci();
+
 			//new Matching();
 			//new Math();
-			new TextManipulation();
+			//new TextManipulation();
 
 			Console.ReadKey();
 		}
