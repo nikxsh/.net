@@ -8,7 +8,6 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Dynamic;
 using System.IO;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace ETL
@@ -16,13 +15,13 @@ namespace ETL
 	class Program
 	{
 		static string _baseUrl = @"C:\Users\nikhilesh.shinde\work\playground\dotnet\pocs\ETL\";
-		static string _sqlConnection = "Data Source=.;Initial Catalog=Test;Integrated Security=True;";
-		static string _mongoConnection = "mongodb://localhost:27017/?readPreference=primary&appname=MongoDB%20Compass&ssl=false";
+		static Template _template;
 
 		static void Main(string[] args)
 		{
 			Console.WriteLine("Hello World!");
-			var transformedlist = Tranform(ReadTemplate($"{_baseUrl}template.json"));
+			_template = ReadTemplate($"{_baseUrl}template.json");
+			var transformedlist = Tranform();
 			SendToMongoDb(transformedlist);
 		}
 
@@ -31,17 +30,17 @@ namespace ETL
 			return JsonConvert.DeserializeObject<Template>(File.ReadAllText(url));
 		}
 
-		static List<BsonDocument> Tranform(Template template)
+		static List<BsonDocument> Tranform()
 		{
 			// Transform table
-			var mainData = ExtractSourceData(template.Main.ToString());
+			var mainData = ExtractSourceData(_template.Main.ToString());
 
 			var outputList = Load(mainData);
 
 			foreach (var item in outputList)
 			{
 				// Transform nested tables
-				foreach (var nest in template.Nested)
+				foreach (var nest in _template.Nested)
 				{
 					var mappingKey = item[nest.SKey].ToString();
 					var nestedData = ExtractSourceData(nest.ToString(mappingKey));
@@ -81,7 +80,7 @@ namespace ETL
 		{
 			DataSet ds = new DataSet();
 
-			using (SqlConnection connection = new SqlConnection(_sqlConnection))
+			using (SqlConnection connection = new SqlConnection(_template.Settings.Sql.Connection))
 			{
 				using (SqlCommand cmd = new SqlCommand(query))
 				{
@@ -97,11 +96,11 @@ namespace ETL
 
 		static Task SendToMongoDb(List<BsonDocument> payload)
 		{
-			var settings = MongoClientSettings.FromConnectionString(_mongoConnection);
+			var settings = MongoClientSettings.FromConnectionString(_template.Settings.Mongo.Connection);
 			var client = new MongoClient(settings);
-			IMongoDatabase _mongoDatabase = client.GetDatabase("Testdb");
+			IMongoDatabase _mongoDatabase = client.GetDatabase(_template.Settings.Mongo.Database);
 
-			var _collection = _mongoDatabase.GetCollection<BsonDocument>("products", new MongoCollectionSettings
+			var _collection = _mongoDatabase.GetCollection<BsonDocument>(_template.Settings.Mongo.Collection, new MongoCollectionSettings
 			{
 				AssignIdOnInsert = true
 			});
@@ -112,7 +111,7 @@ namespace ETL
 			}
 			catch (MongoWriteException ex)
 			{
-				throw;	
+				throw;
 			}
 
 			return Task.CompletedTask;
