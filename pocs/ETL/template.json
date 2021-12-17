@@ -1,0 +1,18 @@
+{
+  "main": {
+    "tableName": "PRODUCTCATEGORIES",
+    "select": [ "*" ],
+    "conditions": ""
+  },
+  "nested": [
+    {
+      "tableName": "PRODUCTS",
+      "objectName": "Products",
+      "parent": "PRODUCTCATEGORIES",
+      "skey": "Id",
+      "tkey": "categoryId",
+      "select": [ "Id", "Name", "UnitPrice", "CategoryId" ],
+      "conditions": ""
+    }
+  ]
+}
