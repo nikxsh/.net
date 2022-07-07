@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace Storage.Migrations
+namespace WineryStore.API.Migrations
 {
     public partial class InitialWineShopCreate : Migration
     {

@@ -46,7 +46,7 @@ namespace RestService
 			services.AddScoped<IWineDataStore, WineDataStore>();
 
 			//Install-Package Microsoft.EntityFrameworkCore.SqlServer -Version 2.1.1
-			services.AddDbContext<WineryContext>(options =>
+			services.AddDbContext<Storage.EF.Datastore.WineryContext>(options =>
 				options.UseSqlServer(Configuration.GetConnectionString("WineryConnection")
 			));
 
@@ -99,6 +99,6 @@ namespace RestService
 		}
 	}
 
-	public class WineryDesignTimeDbContextFactory : DesignTimeDbContextFactory<WineryContext> { }
+	public class WineryDesignTimeDbContextFactory : DesignTimeDbContextFactory<Storage.EF.Datastore.WineryContext> { }
 
 }

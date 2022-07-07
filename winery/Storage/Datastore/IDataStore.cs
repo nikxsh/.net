@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
-using static Storage.Datastore.WineryContext;
+using static Storage.EF.Datastore.WineryContext;
 
 namespace Storage.Datastore
 {

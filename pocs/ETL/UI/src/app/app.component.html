@@ -1,0 +1,139 @@
+<!-- Toolbar -->
+<div class="toolbar" role="banner">
+  <img width="40" alt="Angular Logo"
+    src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNTAgMjUwIj4KICAgIDxwYXRoIGZpbGw9IiNERDAwMzEiIGQ9Ik0xMjUgMzBMMzEuOSA2My4ybDE0LjIgMTIzLjFMMTI1IDIzMGw3OC45LTQzLjcgMTQuMi0xMjMuMXoiIC8+CiAgICA8cGF0aCBmaWxsPSIjQzMwMDJGIiBkPSJNMTI1IDMwdjIyLjItLjFWMjMwbDc4LjktNDMuNyAxNC4yLTEyMy4xTDEyNSAzMHoiIC8+CiAgICA8cGF0aCAgZmlsbD0iI0ZGRkZGRiIgZD0iTTEyNSA1Mi4xTDY2LjggMTgyLjZoMjEuN2wxMS43LTI5LjJoNDkuNGwxMS43IDI5LjJIMTgzTDEyNSA1Mi4xem0xNyA4My4zaC0zNGwxNy00MC45IDE3IDQwLjl6IiAvPgogIDwvc3ZnPg==" />
+  <span>Migration Interface</span>
+  <div class="spacer"></div>
+</div>
+
+<div class="container-fluid content">
+  <div class="row">
+    <div class="col">
+      <div class="basic-spacing">
+        <ngmodelform
+          [formFields]="sqlFormFields"
+          [submitText]="'Fetch Schema'"
+          (onSubmit)="getDbSchema($event)">
+        </ngmodelform>
+      </div>
+      <div class="basic-spacing">
+        <ngb-accordion #acc="ngbAccordion" class="form-field">
+          <ngb-panel title="{{r.table}}" id="toggle-{{i}}" *ngFor="let r of dbSchema;let i = index">
+            <ng-template ngbPanelContent>
+              <div class="basic-spacing">
+                <ul class="list-group">
+                  <li class="list-group-item" *ngFor="let c of r.columns;let j = index">
+                    <div class="form-check">
+                      <input class="form-check-input" type="checkbox" [(ngModel)]="r.selectedColumns[j]"
+                        (change)="onColumnSelect(r.table, c, $event)" [disabled]="!(r.mainCheck || r.nestedCheck)">
+                      <label class="form-check-label">
+                        {{c}}
+                      </label>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+              <div class="basic-spacing">
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" name="maintableradio" [value]="r.table"
+                    [(ngModel)]="r.mainCheck" (ngModelChange)="onMainTableSelect(r.table, i)">
+                  <label class="form-check-label">
+                    Main
+                  </label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="checkbox" name="nestedCheckbox" [(ngModel)]="r.nestedCheck"
+                    (change)="onNestedTableSelect(r.table, r.nestedCheck, i)">
+                  <label class="form-check-label" for="inlineCheckbox1">Nested</label>
+                </div>
+              </div>
+              <!-- <div class="basic-spacing" *ngIf="r.mainCheck && !r.nestedCheck">
+                <form>
+                  <div class="form-group">
+                    <label>Condition</label>                    
+                    <input class="form-control" type="text" name="conditions" [value]="this.template.mainTable!.conditions">
+                  </div>
+                </form>
+              </div> -->
+              <div class="basic-spacing" *ngIf="r.nestedCheck && !r.mainCheck">
+                <form>
+                  <div class="form-group">
+                    <label>Target Table</label>                    
+                    <input class="form-control" type="text" name="targetTable" [value]="this.template.mainTable!.tableName" disabled>
+                  </div>
+                  <div class="form-group">
+                    <label>Object Name</label>
+                    <input class="form-control" type="text" name="objectName" [ngModel]="r.objectName"
+                      (ngModelChange)="onObjectNameSelect(i, $event, r.table)" placeholder="E.g. products">
+                  </div>
+                  <div class="form-group">
+                    <label>Select Source Id</label>
+                    <select class="form-control" name="sourceId" [(ngModel)]="r.sourceId"
+                      (change)="onSourceIdSelect(i, r.sourceId, r.table)">
+                      <option [value]="c" *ngFor="let c of getColumns(i);">{{c}}</option>
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <label>Select Target Id</label>
+                    <select class="form-control" name="targetId" [(ngModel)]="r.targetId"
+                      (change)="onTargetIdSelect(i, r.targetId, r.table)">
+                      <option [value]="c" *ngFor="let c of targetColumns">{{c}}</option>
+                    </select>
+                  </div>
+                </form>
+              </div>
+            </ng-template>
+          </ngb-panel>
+        </ngb-accordion>
+      </div>
+    </div>
+    <div class="col">
+      <div class="basic-spacing">        
+        <ngmodelform
+          [formFields]="mongoFormFields"
+          [submitText]="'Update template'"
+          (onSubmit)="saveMongoSettings($event)">
+        </ngmodelform>
+        <!-- 
+        <form>
+          <div class="form-group">
+            <label>Mongo database connection string</label>
+            <input type="text" class="form-control" name="connectionInput" placeholder="Enter connection string"
+              [(ngModel)]="mongoDbUrl">
+            <small id="textHelp" class="form-text text-muted txt-italic">E.g.
+              "mongodb://localhost:27017/?readPreference=primary&appname=MongoDB"</small>
+          </div>
+          <div class="form-group">
+            <label>Mongo database Name</label>
+            <input type="text" class="form-control" name="dbNameInput" placeholder="Enter database name"
+              [(ngModel)]="mongoDbName">
+          </div>
+          <div class="form-group">
+            <label>Mongo colletion Name</label>
+            <input type="text" class="form-control" name="collectioInput" placeholder="Enter collection name"
+              [(ngModel)]="mongoDbCollection">
+          </div>
+        </form> -->
+      </div>
+      <div class="basic-spacing">
+        <textarea class="form-control area-field" rows="20" [(ngModel)]="displayTemplate"></textarea>
+      </div>
+      <hr/>
+      <div>
+        <button class="btn btn-primary" (click)="getSampleDocument()" [disabled]="!canGetSampleDocument()">Verify Document</button>
+      </div>
+      <div class="terminal">
+        <pre [innerHTML]="sampleDocument | prettyprint"></pre>
+      </div>
+      <hr/>
+      <div>
+        <button class="btn btn-primary" (click)="migrateData()" [disabled]="!(canGetSampleDocument() && this.sampleDocument)">Start Migration</button>
+        <p>&nbsp;</p>
+        <div class="alert alert-primary" role="alert" *ngIf="migrationResponse">
+          {{migrationResponse}}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<router-outlet></router-outlet>

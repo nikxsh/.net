@@ -3,7 +3,7 @@ using System.Linq;
 using Common.Helper;
 using Common.Extensions;
 using Common.Utils;
-using static Storage.Datastore.WineryContext;
+using static Storage.EF.Datastore.WineryContext;
 
 namespace Storage
 {

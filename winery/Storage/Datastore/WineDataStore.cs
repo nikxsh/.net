@@ -1,16 +1,16 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
-using static Storage.Datastore.WineryContext;
+using static Storage.EF.Datastore.WineryContext;
 
 namespace Storage.Datastore
 {
     public class WineDataStore : IWineDataStore, IDisposable
 	{
 		private bool disposed = false;
-		private readonly WineryContext WineContext;
+		private readonly EF.Datastore.WineryContext WineContext;
 
-		public WineDataStore(WineryContext wineContext)
+		public WineDataStore(EF.Datastore.WineryContext wineContext)
 		{
 			this.WineContext = wineContext;
 		}

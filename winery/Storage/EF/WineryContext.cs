@@ -16,7 +16,7 @@ namespace Storage.EF.Datastore
 		protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 		{
 			optionsBuilder.EnableSensitiveDataLogging();
-			//optionsBuilder.UseSqlServer(@"Server=(local);Database=Test;Integrated Security=True");
+			optionsBuilder.UseSqlServer(@"Server=(local);Database=Test;Integrated Security=True", b => b.MigrationsAssembly("WineryStore.API"));
 		}
 
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -43,8 +43,8 @@ namespace Storage.EF.Datastore
 				.HasConversion<int>();
 
 			//Seed Mock Data
-			//modelBuilder.Entity<Winery>().HasData(SeedWineryData.GetWineries());
-			//modelBuilder.Entity<Wine>().HasData(SeedWineryData.GetWines());
+			modelBuilder.Entity<Establishment>().HasData(SeedWineryData.GetWineries());
+			modelBuilder.Entity<Wine>().HasData(SeedWineryData.GetWines());
 
 			//https://docs.microsoft.com/en-us/ef/core/managing-schemas/migrations/index
 			//1. Install-Package Microsoft.EntityFrameworkCore.Design

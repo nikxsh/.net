@@ -1,4 +1,4 @@
-﻿using static Storage.Datastore.WineryContext;
+﻿using static Storage.EF.Datastore.WineryContext;
 using Contract = Common;
 
 namespace Storage
